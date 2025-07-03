@@ -4,7 +4,7 @@ class ::CartItems::Create < Micro::Case
   def call!
     @product = Product.all.find(params[:product_id])
     @quantity = params[:quantity].to_i
-    @cart_item = cart.cart_items.find_by(product: @product)
+    @cart_item = cart&.cart_items&.find_by(product: @product)
 
     return Failure result: { message: "Invalid Product" } unless @product.present?
     return Failure result: { message: "Invalid Quantity" } unless params[:quantity].is_a?(Integer) && params[:quantity] > 0
@@ -19,7 +19,7 @@ class ::CartItems::Create < Micro::Case
   private
 
   def update_quantity
-    @cart_item.quantity = quantity
+    @cart_item&.quantity = @quantity
 
     if @cart_item.save
       Success result: { cart: cart, message: "Product quantity updated." }

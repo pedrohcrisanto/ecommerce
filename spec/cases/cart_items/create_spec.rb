@@ -43,5 +43,28 @@ RSpec.describe ::CartItems::Create, type: :case do
         expect(result.data[:message]).to include("Invalid Quantity")
       end
     end
+
+    context "when the cart is not provided" do
+      it "returns an error result" do
+        result = described_class.call(params: params, cart: nil)
+
+        expect(result).not_to be_success
+        expect(result.data[:message]).to include("Invalid Cart")
+      end
+    end
+
+    context "when the product already exists in the cart" do
+      before do
+        cart.cart_items.create(product: product, quantity: 1)
+      end
+
+      it "updates the quantity of the existing cart item" do
+        result = described_class.call(params: params, cart: cart)
+
+        expect(result).to be_success
+        expect(result.data[:cart].cart_items.first.quantity).to eq(2)
+        expect(cart.cart_items.count).to eq(1)
+      end
+    end
   end
 end
