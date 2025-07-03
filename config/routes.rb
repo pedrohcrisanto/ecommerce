@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
   namespace :v1 do
-    post '/cart', to: 'carts#add_item', as: :add_to_cart
-    get '/cart', to: 'carts#show', as: :show_cart
-    patch '/cart/add_item', to: 'carts#update_item_quantity', as: :update_cart_item_quantity
-    delete '/cart/:product_id', to: 'carts#remove_item', as: :remove_from_cart
+    post '/cart_items', to: 'cart_items#add_item', as: :add_to_cart
+    get '/cart_items', to: 'cart_items#show', as: :show_cart
+    patch '/cart_items/add_item', to: 'cart_items#update_item_quantity', as: :update_cart_item_quantity
+    delete '/cart_items/:product_id', to: 'cart_items#remove_item', as: :remove_from_cart
   end
 
   get "up" => "rails/health#show", as: :rails_health_check
