@@ -2,8 +2,6 @@ class Products::Repository
   ALL_PRODUCTS = "all_products".freeze
   def self.call
     new
-
-    all
   end
 
   def all

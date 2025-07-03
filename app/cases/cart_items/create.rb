@@ -2,15 +2,18 @@ class ::CartItems::Create < Micro::Case
   attributes :params, :cart
 
   def call!
-    @product = Product::Repository.call.find(params[:product_id])
+    @product = Product.all.find(params[:product_id])
     @quantity = params[:quantity].to_i
     @cart_item = cart.cart_items.find_by(product: @product)
 
-    return Failure(:invalid_product_id) unless @product.exists?
-    return Failure(:invalid_quantity) unless quantity.is_a?(Integer) && quantity > 0
-    return Failure(:cart_not_found) unless cart
+    return Failure result: { message: "Invalid Product" } unless @product.present?
+    return Failure result: { message: "Invalid Quantity" } unless params[:quantity].is_a?(Integer) && params[:quantity] > 0
+    return Failure result: { message: "Invalid Cart" } unless cart
 
-    @cart_item.exists? ? update_quantity : create_cart_item
+    @cart_item.present? ? update_quantity : create_cart_item
+
+  rescue => e
+    Failure result: { message: e.message }
   end
 
   private
@@ -21,7 +24,7 @@ class ::CartItems::Create < Micro::Case
     if @cart_item.save
       Success result: { cart: cart, message: "Product quantity updated." }
     else
-      Failure(:update_failed, errors: cart_item.errors.full_messages)
+      Failure result: { message: cart_item.errors.full_messages }
     end
   end
 
@@ -31,7 +34,7 @@ class ::CartItems::Create < Micro::Case
     if new_cart_item.save
       Success result: { cart: cart, message: "Product added to cart_items." }
     else
-      Failure(:creation_failed, errors: new_cart_item.errors.full_messages)
+      Failure result: { message: new_cart_item.errors.full_messages }
     end
   end
 end
