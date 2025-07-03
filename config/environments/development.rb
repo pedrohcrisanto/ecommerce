@@ -9,6 +9,9 @@ Rails.application.configure do
   # Do not eager load code on boot.
   config.eager_load = false
 
+  # Use Solid Cache for caching in development
+  config.cache_store = :solid_cache_store
+
   # Show full error reports.
   config.consider_all_requests_local = true
 
