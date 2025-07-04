@@ -5,7 +5,7 @@ class Cart < ApplicationRecord
   has_many :products, through: :cart_items
 
   # Validation for session_id, though it might be set dynamically
-  validates :session_id, presence: true, uniqueness: true, allow_nil: true
+  validates :session_id, presence: true, uniqueness: true
 
   # Scope to find active cart (not abandoned)
   scope :active, -> { where(abandoned_at: nil) }
@@ -13,9 +13,6 @@ class Cart < ApplicationRecord
   scope :abandoned, -> { where.not(abandoned_at: nil) }
 
   # Method to calculate the total price of all items in the cart
-  def total_price
-    cart_items.sum(:total_price)
-  end
 
   # Method to check if the cart is empty
   def empty?
@@ -35,5 +32,9 @@ class Cart < ApplicationRecord
   # Method to check if the cart has been abandoned for more than 7 days
   def abandoned_for_more_than_seven_days?
     abandoned_at.present? && abandoned_at < 7.days.ago
+  end
+
+  def total_price
+    cart_items.includes(:product).sum('cart_items.quantity * products.unit_price')
   end
 end
