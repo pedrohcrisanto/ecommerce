@@ -4,7 +4,7 @@ class CartItem < ApplicationRecord
   belongs_to :product
 
   # Validations for quantity and prices
-  validates :quantity, presence: true, numericality: { greater_than_or_equal_to: 0, only_integer: true }
+  validates :quantity, presence: true, numericality: { greater_than_or_equal_to: 1, only_integer: true }
 
   # Ensure uniqueness of product within a cart_items
   validates :product_id, uniqueness: { scope: :cart_id, message: "already exists in this cart_items" }

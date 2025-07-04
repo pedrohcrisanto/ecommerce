@@ -40,7 +40,7 @@ RSpec.describe ::CartItems::Add, type: :case do
         result = described_class.call(params: params, cart: cart)
 
         expect(result).not_to be_success
-        expect(result.data[:message]).to include("Quantity must be greater than or equal to 0")
+        expect(result.data[:message]).to include("Quantity must be greater than or equal to 1")
       end
     end
 
