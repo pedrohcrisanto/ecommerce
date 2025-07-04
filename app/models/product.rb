@@ -6,4 +6,11 @@ class Product < ApplicationRecord
 
   # For demonstration, let's add some mock product data (you'd seed this in db/seeds.rb)
   # self.abstract_class = true # If Product is just an interface for external products
+  def total_price
+    unit_price * quantity
+  end
+
+  def quantity
+    cart_items.sum(:quantity)
+  end
 end
