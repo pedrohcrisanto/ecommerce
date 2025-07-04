@@ -1,5 +1,5 @@
 class ::CartItems::Destroy < Micro::Case
-  attributes :product_id
+  attributes :product_id, :cart
 
   def call!
     return Failure result: { message: "Cart item not found" } unless cart_item
@@ -17,6 +17,6 @@ class ::CartItems::Destroy < Micro::Case
   private
 
   def cart_item
-    @cart_item ||= CartItem.find_by(product_id: product_id)
+    @cart_item ||= CartItem.find_by(product_id: product_id, cart: cart)
   end
 end

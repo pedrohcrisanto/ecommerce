@@ -15,7 +15,7 @@ class V1::CartItemsController < BaseController
   end
 
   def destroy
-    result = ::CartItem::Destroy.call(product_id: cart_params[:product_id])
+    result = ::CartItem::Destroy.call(product_id: cart_params[:product_id], cart: @cart)
 
     if result.success?
       @cart.reload # Reload cart_items to reflect items removal and update total_price
@@ -23,6 +23,10 @@ class V1::CartItemsController < BaseController
     else
       render json: { errors: result.errors }, status: :unprocessable_entity
     end
+  end
+
+  def update
+    
   end
 
   private

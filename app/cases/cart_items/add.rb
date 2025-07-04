@@ -21,10 +21,20 @@ class ::CartItems::Add < Micro::Case
   end
 
   def update_quantity
+    return destroy_cart_item if @quantity == 0
+
     cart_item&.quantity = @quantity
 
     if cart_item.save
       Success result: { cart: cart, message: "Product quantity updated." }
+    else
+      Failure result: { message: cart_item.errors.full_messages }
+    end
+  end
+
+  def destroy_cart_item
+    if cart_item.destroy
+      Success result: { cart: cart, message: "Product removed from cart_items." }
     else
       Failure result: { message: cart_item.errors.full_messages }
     end
