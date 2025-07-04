@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe ::CartItems::Create, type: :case do
+RSpec.describe ::CartItems::Add, type: :case do
   let(:cart) { create(:cart) }
   let(:product) { create(:product) }
   let(:params) do
@@ -40,7 +40,7 @@ RSpec.describe ::CartItems::Create, type: :case do
         result = described_class.call(params: params, cart: cart)
 
         expect(result).not_to be_success
-        expect(result.data[:message]).to include("Invalid Quantity")
+        expect(result.data[:message]).to include("Quantity must be greater than or equal to 0")
       end
     end
 
