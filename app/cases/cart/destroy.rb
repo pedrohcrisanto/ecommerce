@@ -1,4 +1,4 @@
-class ::CartItems::Destroy < Micro::Case
+class ::Cart::Destroy < Micro::Case
   attributes :product_id, :cart
 
   def call!

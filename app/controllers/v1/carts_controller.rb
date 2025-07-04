@@ -1,7 +1,6 @@
-class V1::CartItemsController < BaseController
+class V1::CartsController < BaseController
   def create
-    result = ::CartItem::Create.call(params: { product_id: cart_params[:product_id],
-                                               quantity: cart_params[:quantity] }, cart: @cart)
+    result = ::CartItem::Create.call(params: cart_params, cart: @cart)
 
     if result.success?
       render json: cart_payload(@cart), status: :created
@@ -18,7 +17,7 @@ class V1::CartItemsController < BaseController
     result = ::CartItem::Destroy.call(product_id: cart_params[:product_id], cart: @cart)
 
     if result.success?
-      @cart.reload # Reload cart_items to reflect items removal and update total_price
+      @cart.reload # Reload cart to reflect items removal and update total_price
       render json: cart_payload(@cart), status: :ok
     else
       render json: { errors: result.errors }, status: :unprocessable_entity
@@ -26,12 +25,19 @@ class V1::CartItemsController < BaseController
   end
 
   def update
-    
+    result = ::CartItem::Update.call(params: cart_params, cart: @cart)
+
+    if result.success?
+      @cart.reload # Reload cart to reflect updated quantities and total_price
+      render json: cart_payload(@cart), status: :ok
+    else
+      render json: { errors: result.errors }, status: :unprocessable_entity
+    end
   end
 
   private
 
-  # Helper method to format the cart_items response payload consistently
+  # Helper method to format the cart response payload consistently
   def cart_payload(cart)
     {
       id: cart.id,
