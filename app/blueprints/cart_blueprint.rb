@@ -3,5 +3,5 @@ class CartBlueprint < Blueprinter::Base
 
   association :products, blueprint: ::ProductBlueprint
 
-  fields :total_price
+  fields :total_price, :session_id
 end

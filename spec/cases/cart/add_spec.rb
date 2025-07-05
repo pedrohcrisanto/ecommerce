@@ -1,5 +1,5 @@
 require "rails_helper"
-RSpec.describe ::Cart::Add, type: :case do
+RSpec.describe ::Cart::AddItem, type: :case do
   let(:cart) { create(:cart) }
   let(:cart_item) { create(:cart_item, cart: cart, product: product) }
   let(:product) { create(:product) }

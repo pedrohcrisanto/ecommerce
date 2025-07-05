@@ -1,0 +1,131 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/v1/carts":
+    post:
+      summary: Create a new CartItem
+      tags:
+      - Carts
+      parameters: []
+      responses:
+        '201':
+          description: CartItem created
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                product_id:
+                  type: integer
+                quantity:
+                  type: integer
+              required:
+              - product_id
+              - quantity
+    get:
+      summary: Show Cart
+      tags:
+      - Carts
+      responses:
+        '200':
+          description: Cart retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      total_price:
+                        type: number
+                  message:
+                    type: string
+    put:
+      summary: Update CartItem
+      tags:
+      - Carts
+      parameters: []
+      responses:
+        '200':
+          description: CartItem updated
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                product_id:
+                  type: integer
+                quantity:
+                  type: integer
+              required:
+              - product_id
+              - quantity
+  "/api/v1/carts/{product_id}":
+    delete:
+      summary: Remove CartItem
+      tags:
+      - Carts
+      parameters:
+      - name: product_id
+        in: path
+        description: ID of the product to remove
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: CartItem removed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      total_price:
+                        type: number
+                  message:
+                    type: string
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com

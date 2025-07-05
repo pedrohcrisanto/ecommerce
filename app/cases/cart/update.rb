@@ -15,6 +15,7 @@ class Cart::Update < Micro::Case
 
   def update_quantity
     return destroy_cart_item if @quantity == 0
+    return Failure result: { message: "Product not found in cart." } unless cart_item
 
     cart_item&.quantity = @quantity
 
@@ -34,10 +35,10 @@ class Cart::Update < Micro::Case
   end
 
   def product
-    @product ||= Product.find(params[:product_id])
+    @product ||= Product&.find(params[:product_id])
   end
 
   def cart_item
-    @cart_item ||= cart.cart_items.find_by(product: product)
+    @cart_item ||= cart&.cart_items&.find_by(product: product)
   end
 end

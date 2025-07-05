@@ -22,11 +22,12 @@ gem "solid_cable"
 gem "u-case", "~> 4.5.1"
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
-
+gem "rswag-api"
+gem "rswag-ui"
 # Deploy this application anywhere as a Docker container [https://kamal-deploy.org]
 gem "kamal", require: false
 
-# Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
+# AddItem HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
 gem "thruster", require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
@@ -46,6 +47,7 @@ group :development, :test do
   gem "shoulda-matchers"
   gem "faker"
   gem "pry-rails"
+  gem "rswag-specs"
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
 end
