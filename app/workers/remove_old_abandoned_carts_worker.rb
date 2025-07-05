@@ -5,15 +5,12 @@ class RemoveOldAbandonedCartsWorker
 
   queue_as :default
   def perform
-    total_removed = 0
-
     Cart.where.not(abandoned_at: nil)
         .where("abandoned_at < ?", LIMIT_ABANDONED_DAYS)
-        .find_each(batch_size: 1000) do |cart|
-      cart.destroy
-      total_removed += 1
+        .in_batches(of: 1000) do |batch|
+      batch.delete_all
     end
 
-    Rails.logger.info("[RemoveOldAbandonedCartsJob] Remoção concluída. Total de carrinhos removidos com callbacks: #{total_removed}")
+    Rails.logger.info("[RemoveOldAbandonedCartsJob] Remoção concluída.")
   end
 end
