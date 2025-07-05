@@ -8,4 +8,12 @@ class CartItem < ApplicationRecord
 
   # Ensure uniqueness of product within a cart
   validates :product_id, uniqueness: { scope: :cart_id, message: "already exists in this cart" }
+
+  after_save :active_cart
+  after_update :active_cart
+
+  private
+  def active_cart
+    cart.update(abandoned_at: nil) if cart.abandoned_at.present?
+  end
 end

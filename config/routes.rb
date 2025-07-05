@@ -1,5 +1,6 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
-  mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Ui::Engine => "/api-docs"
   mount Rswag::Api::Engine => "/api-docs"
 
@@ -12,6 +13,8 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  mount Sidekiq::Web => '/sidekiq'
 
   get "up" => "rails/health#show", as: :rails_health_check
 end

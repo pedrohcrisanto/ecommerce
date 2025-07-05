@@ -1,0 +1,11 @@
+mark_abandoned_carts_job:
+  cron: "0 * * * *" # A cada hora, minuto 0
+  class: "MarkAbandonedCartsWorker"
+  queue: default
+  args: []
+
+remove_old_abandoned_carts_job:
+  cron: "0 0 * * *" # Todo dia à meia-noite
+  class: "RemoveOldAbandonedCartsWorker"
+  queue: default
+  args: []
