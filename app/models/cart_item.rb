@@ -11,5 +11,7 @@ class CartItem < ApplicationRecord
   private
   def active_cart
     cart.update(abandoned_at: nil) if cart.abandoned_at.present?
+
+    cart.update(updated_at: Time.current)
   end
 end
