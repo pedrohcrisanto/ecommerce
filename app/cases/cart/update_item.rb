@@ -1,4 +1,4 @@
-class Cart::Update < Micro::Case
+class Cart::UpdateItem < Micro::Case
   attributes :params, :cart
 
   def call!
